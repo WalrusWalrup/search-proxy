@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, redirect
 import requests
 
 app = Flask(__name__)
@@ -8,14 +8,18 @@ def proxy():
     url = request.args.get('url')
     if not url:
         return 'Missing URL parameter', 400
-    
-    # Validate the URL
+
+    # Validate and format the URL
     if not url.startswith('http'):
         url = 'http://' + url
 
+    # Try to fetch the URL and handle errors
     try:
         response = requests.get(url)
-        return Response(response.content, content_type=response.headers['Content-Type'])
+        if response.status_code == 200:
+            return redirect(url)
+        else:
+            return 'Failed to fetch URL', response.status_code
     except requests.RequestException as e:
         return str(e), 500
 
