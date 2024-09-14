@@ -1,5 +1,4 @@
-from flask import Flask, request, Response, render_template
-import requests
+from flask import Flask, request, Response, redirect, render_template
 
 app = Flask(__name__)
 
@@ -9,15 +8,12 @@ def index():
 
 @app.route('/proxy')
 def proxy():
-    url = request.args.get('url')
-    if not url:
-        return 'Missing URL parameter', 400
+    search_term = request.args.get('url')
+    if not search_term:
+        return 'Missing search term parameter', 400
 
-    try:
-        response = requests.get(url)
-        return Response(response.content, content_type=response.headers.get('Content-Type'))
-    except requests.RequestException as e:
-        return str(e), 500
+    search_url = f"https://www.bing.com/search?q={search_term}"
+    return redirect(search_url)
 
 if __name__ == '__main__':
     app.run(port=8000)

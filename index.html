@@ -20,36 +20,26 @@
             padding: 20px;
             border: 1px solid #ccc;
             background-color: #fff;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            width: 80%;
+            max-width: 800px;
         }
         iframe {
+            border: none;
             width: 100%;
             height: 80vh;
-            border: none;
         }
     </style>
 </head>
 <body>
     <div id="container">
         <h1>Walrus Search Proxy</h1>
-        <form id="search-form" action="/proxy" method="get">
-            <input type="text" name="q" id="search-box" placeholder="Search Google" required>
+        <form action="/proxy" method="get" target="search-iframe">
+            <input type="text" name="url" placeholder="Enter search term here" size="50" autofocus>
             <button type="submit">Search</button>
         </form>
+        <iframe name="search-iframe" src=""></iframe>
     </div>
-    <iframe id="search-frame" src="https://www.google.com" title="Google Search"></iframe>
-
-    <script>
-        document.getElementById('search-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var query = document.getElementById('search-box').value;
-            var iframe = document.getElementById('search-frame');
-            if (query) {
-                var searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-                iframe.src = '/proxy?url=' + encodeURIComponent(searchUrl);
-            }
-        });
-    </script>
 </body>
 </html>
