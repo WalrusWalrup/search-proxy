@@ -3,38 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Search Proxy</title>
+    <title>Walrus Search Proxy</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            background-color: #f5f5f5;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
-        .search-box {
-            text-align: center;
-        }
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        input[type="submit"] {
+        #header {
+            background-color: #f8f9fa;
             padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #ddd;
+        }
+        #content {
+            margin-top: 60px; /* Adjust according to the height of the header */
+        }
+        iframe {
+            width: 100%;
+            height: calc(100vh - 60px); /* Adjust according to the height of the header */
+            border: none;
         }
     </style>
 </head>
 <body>
-    <div class="search-box">
-        <form id="searchForm" action="https://www.google.com/search" method="get" target="_self">
-            <input type="text" name="q" placeholder="Search Google..." required>
-            <input type="submit" value="Search">
+    <div id="header">
+        <h1>Walrus Search Proxy</h1>
+    </div>
+    <div id="content">
+        <form action="/search" method="get" style="text-align: center; margin: 20px;">
+            <input type="text" name="q" placeholder="Search Google..." size="50" autofocus>
+            <button type="submit">Search</button>
         </form>
+        {% if query %}
+            <iframe src="https://www.google.com/search?q={{ query }}" title="Google Search Results"></iframe>
+        {% endif %}
     </div>
 </body>
 </html>
