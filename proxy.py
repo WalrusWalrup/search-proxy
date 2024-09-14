@@ -8,11 +8,11 @@ def index():
 
 @app.route('/proxy')
 def proxy():
-    search_term = request.args.get('url')
-    if not search_term:
-        return 'Missing search term parameter', 400
+    query = request.args.get('query')
+    if not query:
+        return 'Missing search query parameter', 400
 
-    search_url = f"https://www.bing.com/search?q={search_term}"
+    search_url = f"https://duckduckgo.com/?q={query}"
     return redirect(search_url)
 
 if __name__ == '__main__':
