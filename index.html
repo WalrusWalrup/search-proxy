@@ -34,22 +34,20 @@
     <div id="container">
         <h1>Walrus Search Proxy</h1>
         <form id="search-form" action="/proxy" method="get">
-            <input type="text" name="url" id="search-box" placeholder="Enter URL here" required>
+            <input type="text" name="q" id="search-box" placeholder="Search Google" required>
             <button type="submit">Search</button>
         </form>
     </div>
-    <iframe id="google-frame" src="https://www.google.com" title="Google Search"></iframe>
+    <iframe id="search-frame" src="https://www.google.com" title="Google Search"></iframe>
 
     <script>
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            var url = document.getElementById('search-box').value;
-            var iframe = document.getElementById('google-frame');
-            if (url) {
-                if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                    url = 'http://' + url;
-                }
-                iframe.src = '/proxy?url=' + encodeURIComponent(url);
+            var query = document.getElementById('search-box').value;
+            var iframe = document.getElementById('search-frame');
+            if (query) {
+                var searchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                iframe.src = '/proxy?url=' + encodeURIComponent(searchUrl);
             }
         });
     </script>
