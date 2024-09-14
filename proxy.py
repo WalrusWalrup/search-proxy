@@ -8,6 +8,10 @@ def proxy():
     url = request.args.get('url')
     if not url:
         return 'Missing URL parameter', 400
+    
+    # Validate the URL
+    if not url.startswith('http'):
+        url = 'http://' + url
 
     try:
         response = requests.get(url)
