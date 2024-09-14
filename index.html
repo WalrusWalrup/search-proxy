@@ -10,39 +10,22 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-        #header {
+        .header {
             background-color: #f8f9fa;
             padding: 10px 20px;
             text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #ddd;
+            font-size: 24px;
+            border-bottom: 1px solid #ccc;
         }
-        #content {
-            margin-top: 60px; /* Adjust according to the height of the header */
-        }
-        iframe {
+        .search-container {
             width: 100%;
-            height: calc(100vh - 60px); /* Adjust according to the height of the header */
+            height: calc(100vh - 60px); /* Adjust this value based on the height of the header */
             border: none;
         }
     </style>
 </head>
 <body>
-    <div id="header">
-        <h1>Walrus Search Proxy</h1>
-    </div>
-    <div id="content">
-        <form action="/search" method="get" style="text-align: center; margin: 20px;">
-            <input type="text" name="q" placeholder="Search Google..." size="50" autofocus>
-            <button type="submit">Search</button>
-        </form>
-        {% if query %}
-            <iframe src="https://www.google.com/search?q={{ query }}" title="Google Search Results"></iframe>
-        {% endif %}
-    </div>
+    <div class="header">Walrus Search Proxy</div>
+    <iframe class="search-container" src="https://www.google.com/search?q="></iframe>
 </body>
 </html>
