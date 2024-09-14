@@ -17,15 +17,26 @@
             font-size: 24px;
             border-bottom: 1px solid #ccc;
         }
-        .search-container {
-            width: 100%;
-            height: calc(100vh - 60px); /* Adjust this value based on the height of the header */
-            border: none;
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
     <div class="header">Walrus Search Proxy</div>
-    <iframe class="search-container" src="https://www.google.com/search?q="></iframe>
+    <form action="/search" method="get">
+        <input type="text" name="query" placeholder="Enter search term" required>
+        <button type="submit">Search</button>
+    </form>
 </body>
 </html>
