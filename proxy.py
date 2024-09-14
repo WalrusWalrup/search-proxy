@@ -1,22 +1,19 @@
-import http.server
-import socketserver
+from flask import Flask, request, Response
+import requests
 
-class Proxy(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        # Simple proxy that forwards the request to the target URL
-        import urllib.request
-        url = 'https://www.example.com' + self.path
-        req = urllib.request.Request(url)
-        try:
-            with urllib.request.urlopen(req) as response:
-                self.send_response(response.status)
-                self.send_header('Content-type', response.headers.get('Content-Type', 'text/html'))
-                self.end_headers()
-                self.wfile.write(response.read())
-        except Exception as e:
-            self.send_error(500, str(e))
+app = Flask(__name__)
 
-PORT = 8000
-with socketserver.TCPServer(("", PORT), Proxy) as httpd:
-    print(f"Serving HTTP on port {PORT}")
-    httpd.serve_forever()
+@app.route('/')
+def proxy():
+    url = request.args.get('url')
+    if not url:
+        return 'Missing URL parameter', 400
+
+    try:
+        response = requests.get(url)
+        return Response(response.content, content_type=response.headers['Content-Type'])
+    except requests.RequestException as e:
+        return str(e), 500
+
+if __name__ == '__main__':
+    app.run(port=8000)
