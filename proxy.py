@@ -1,19 +1,14 @@
-from flask import Flask, request, Response, redirect, render_template
+from flask import Flask, request
+import requests
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/proxy')
-def proxy():
-    query = request.args.get('query')
-    if not query:
-        return 'Missing search query parameter', 400
-
-    search_url = f"https://duckduckgo.com/?q={query}"
-    return redirect(search_url)
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def proxy(path):
+    url = f'http://example.com/{path}'
+    response = requests.get(url, params=request.args)
+    return response.text
 
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(port=8080)
